@@ -10,7 +10,7 @@ const pg = require('pg');
 const pool = new pg.Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'Test',
+  database: 'prod',
   password: 'Qwerty',
   port: 5432,
 });
@@ -24,7 +24,7 @@ app.post("/create", (req, res) => {
 
   
     
-  pool.query('INSERT INTO users (name,age,country,position,wage) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, age, country, position, wage], (error, results) => {
+  pool.query('INSERT INTO mern (name,age,country,position,wage) VALUES ($1, $2, $3, $4, $5) RETURNING *', [name, age, country, position, wage], (error, results) => {
     if (error) {
       console.log(error);
     }
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
  
   console.log("testing");
   
-    pool.query('SELECT * FROM users', (error, results) => {
+    pool.query('SELECT * FROM mern', (error, results) => {
       if (error) {
         console.log(error);
         
@@ -51,7 +51,7 @@ app.put("/update", (req, res) => {
   const name = req.body.name;
   const wage = req.body.wage;
   pool.query(
-    "UPDATE users SET wage = $1 WHERE name = $2 ",
+    "UPDATE mern SET wage = $1 WHERE name = $2 ",
     [wage, name],
     (err, result) => {
       if (err) {
@@ -65,7 +65,7 @@ app.put("/update", (req, res) => {
 
 app.delete("/delete/:name", (req, res) => {
   const name = req.params.name;
-  pool.query("DELETE FROM users WHERE name = $1 RETURNING *", [name], (err, result) => {
+  pool.query("DELETE FROM mern WHERE name = $1 RETURNING *", [name], (err, result) => {
     if (err) {
       console.log(err);
     } else {
